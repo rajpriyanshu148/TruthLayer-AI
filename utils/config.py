@@ -39,13 +39,30 @@ def get_gemini_model() -> str:
     return os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
 
 
+FALLBACK_MODELS = ["gemini-2.0-flash", "gemini-2.0-flash-lite", "gemini-1.5-flash"]
+
+
+def get_next_fallback_model(current_model: str) -> str:
+    """Find the next fallback model in the priority chain."""
+    try:
+        idx = FALLBACK_MODELS.index(current_model)
+        if idx + 1 < len(FALLBACK_MODELS):
+            return FALLBACK_MODELS[idx + 1]
+    except ValueError:
+        pass
+    return "gemini-2.0-flash-lite"
+
+
 def set_fallback_model() -> None:
-    """Switch the model to 1.5-flash when 2.0-flash is out of quota."""
+    """Switch to the next fallback model in the chain."""
     try:
         import streamlit as st
-        st.session_state["_runtime_GEMINI_MODEL"] = "gemini-1.5-flash"
+        current = st.session_state.get("_runtime_GEMINI_MODEL", "gemini-2.0-flash")
+        next_model = get_next_fallback_model(current)
+        st.session_state["_runtime_GEMINI_MODEL"] = next_model
     except Exception:
         pass
+
 
 
 GEMINI_MODEL = "gemini-2.0-flash"

@@ -77,7 +77,7 @@ def render_sidebar():
                 help="Get yours free at app.tavily.com",
             )
             
-            models = ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-2.0-flash-lite"]
+            models = ["gemini-2.0-flash", "gemini-2.0-flash-lite", "gemini-1.5-flash"]
             current_model = st.session_state.get("_runtime_GEMINI_MODEL", "gemini-2.0-flash")
             if current_model not in models:
                 models.append(current_model)
@@ -87,8 +87,9 @@ def render_sidebar():
                 options=models,
                 index=models.index(current_model),
                 key="_input_model",
-                help="Select the Gemini model. 'gemini-1.5-flash' is recommended if your key lacks quota for 2.0."
+                help="Select the Gemini model. 'gemini-2.0-flash-lite' or 'gemini-1.5-flash' are automatically used if 2.0 lacks quota."
             )
+
             
             if st.button("💾 Save Settings", use_container_width=True):
                 if new_gemini:

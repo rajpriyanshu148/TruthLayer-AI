@@ -33,8 +33,14 @@ def is_rate_limit_error(e: Exception) -> bool:
     return any(k in msg for k in ("rate limit", "quota", "429", "resource_exhausted", "too many requests"))
 
 
+def is_model_fallback_error(e: Exception) -> bool:
+    msg = str(e).lower()
+    return any(k in msg for k in ("rate limit", "quota", "429", "resource_exhausted", "too many requests", "404", "not found", "not supported"))
+
+
 def safe_call(func: Callable, *args, fallback: Any = None, **kwargs) -> Any:
     try:
         return func(*args, **kwargs)
     except Exception:
         return fallback
+

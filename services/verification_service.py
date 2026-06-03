@@ -3,7 +3,7 @@ from google.genai import types as genai_types
 from typing import Dict
 from utils.config import get_api_key, get_gemini_model, set_fallback_model, VERIFY_CLAIM_PROMPT, STATUS_COLORS
 from utils.helpers import parse_json_response, safe_get
-from utils.retry import retry_with_backoff, is_rate_limit_error
+from utils.retry import retry_with_backoff, is_model_fallback_error
 
 
 def _get_client():
@@ -21,44 +21,43 @@ def _build_source_credibility(sources: list) -> float:
 def verify_claim(claim: str, evidence: str, sources: list) -> Dict:
     client = _get_client()
     prompt = VERIFY_CLAIM_PROMPT.format(claim=claim, evidence=evidence)
-    model = get_gemini_model()
-    try:
-        response = client.models.generate_content(
-            model=model,
-            contents=prompt,
-            config=genai_types.GenerateContentConfig(temperature=0.1),
-        )
-        raw_text = response.text
-    except Exception as e:
-        if is_rate_limit_error(e) and model != "gemini-1.5-flash":
-            set_fallback_model()
-            try:
-                response = client.models.generate_content(
-                    model="gemini-1.5-flash",
-                    contents=prompt,
-                    config=genai_types.GenerateContentConfig(temperature=0.1),
-                )
-                raw_text = response.text
-            except Exception as fallback_err:
+    
+    last_err = None
+    raw_text = None
+    for _ in range(3):
+        model = get_gemini_model()
+        try:
+            response = client.models.generate_content(
+                model=model,
+                contents=prompt,
+                config=genai_types.GenerateContentConfig(temperature=0.1),
+            )
+            raw_text = response.text
+            break
+        except Exception as e:
+            last_err = e
+            if is_model_fallback_error(e):
+                set_fallback_model()
+            else:
                 return {
                     "claim": claim,
                     "status": "Inaccurate",
                     "confidence": 0.3,
-                    "reason": f"Verification fallback failed: {fallback_err}",
+                    "reason": f"Verification error: {e}",
                     "correct_fact": "",
                     "source": "",
                     "source_credibility": 0.3,
                 }
-        else:
-            return {
-                "claim": claim,
-                "status": "Inaccurate",
-                "confidence": 0.3,
-                "reason": f"Verification error: {e}",
-                "correct_fact": "",
-                "source": "",
-                "source_credibility": 0.3,
-            }
+    else:
+        return {
+            "claim": claim,
+            "status": "Inaccurate",
+            "confidence": 0.3,
+            "reason": f"Verification failed after fallback attempts: {last_err}",
+            "correct_fact": "",
+            "source": "",
+            "source_credibility": 0.3,
+        }
 
     try:
         result = parse_json_response(raw_text)
@@ -83,4 +82,5 @@ def verify_claim(claim: str, evidence: str, sources: list) -> Dict:
             "source": "",
             "source_credibility": 0.3,
         }
+
 
