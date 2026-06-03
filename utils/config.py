@@ -27,7 +27,29 @@ GEMINI_API_KEY = get_api_key("GEMINI_API_KEY")
 TAVILY_API_KEY = get_api_key("TAVILY_API_KEY")
 
 
+def get_gemini_model() -> str:
+    """Get Gemini model: session_state → env → default."""
+    try:
+        import streamlit as st
+        val = st.session_state.get("_runtime_GEMINI_MODEL", "")
+        if val:
+            return val
+    except Exception:
+        pass
+    return os.getenv("GEMINI_MODEL", "gemini-2.0-flash")
+
+
+def set_fallback_model() -> None:
+    """Switch the model to 1.5-flash when 2.0-flash is out of quota."""
+    try:
+        import streamlit as st
+        st.session_state["_runtime_GEMINI_MODEL"] = "gemini-1.5-flash"
+    except Exception:
+        pass
+
+
 GEMINI_MODEL = "gemini-2.0-flash"
+
 
 MAX_CLAIMS_PER_DOC = 50
 MAX_TEXT_CHARS = 50000

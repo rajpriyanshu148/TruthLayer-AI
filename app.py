@@ -54,10 +54,10 @@ def render_sidebar():
                 unsafe_allow_html=True,
             )
 
-        with st.expander("🔑 Configure API Keys", expanded=not keys_ok):
+        with st.expander("🔑 Configure Settings", expanded=not keys_ok):
             st.markdown(
                 "<div style='font-size:0.75rem;color:var(--text-muted);margin-bottom:0.75rem;'>"
-                "Enter your keys below <b>or</b> add them to a <code>.env</code> file.</div>",
+                "Enter your API keys and select your model preference.</div>",
                 unsafe_allow_html=True,
             )
             new_gemini = st.text_input(
@@ -76,12 +76,28 @@ def render_sidebar():
                 key="_input_tavily",
                 help="Get yours free at app.tavily.com",
             )
-            if st.button("💾 Save Keys", use_container_width=True):
+            
+            models = ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-2.0-flash-lite"]
+            current_model = st.session_state.get("_runtime_GEMINI_MODEL", "gemini-2.0-flash")
+            if current_model not in models:
+                models.append(current_model)
+            
+            new_model = st.selectbox(
+                "Gemini Model",
+                options=models,
+                index=models.index(current_model),
+                key="_input_model",
+                help="Select the Gemini model. 'gemini-1.5-flash' is recommended if your key lacks quota for 2.0."
+            )
+            
+            if st.button("💾 Save Settings", use_container_width=True):
                 if new_gemini:
                     st.session_state["_runtime_GEMINI_API_KEY"] = new_gemini
                 if new_tavily:
                     st.session_state["_runtime_TAVILY_API_KEY"] = new_tavily
+                st.session_state["_runtime_GEMINI_MODEL"] = new_model
                 st.rerun()
+
 
         st.markdown("<div class='section-divider'></div>", unsafe_allow_html=True)
         st.markdown("""
