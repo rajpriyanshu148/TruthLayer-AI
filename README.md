@@ -195,42 +195,6 @@ Open [http://localhost:8501](http://localhost:8501) in your browser.
  
 > ⚠️ **Important**: On Streamlit Cloud, use the Secrets manager instead of a `.env` file. The `python-dotenv` load will silently fail on Cloud, and the app will fall back to environment variables — which Streamlit Cloud injects automatically from your secrets.
 
-
----
-
-## 🎬 Demo
-
-### 30-Second Demo Script
-
-```
-[0:00] Open TruthLayer AI — hero page loads with animated gradient title
-       "TruthLayer AI" and pipeline step indicators.
-
-[0:05] Drag and drop a PDF (e.g., a company annual report or news article).
-       File metadata appears: page count, file size.
-
-[0:08] Click "Start Fact-Check Analysis" — progress bar activates.
-       Step 1: PDF extraction.
-       Step 2: Gemini detects 18 factual claims.
-       Step 3: Each claim searched via Tavily in real-time.
-
-[0:18] Progress completes. Success toast + balloons animation.
-       KPI cards animate in: 18 Total, 12 Verified ✅, 4 Inaccurate ⚠️, 2 False ❌.
-       Accuracy score: 66.7%.
-
-[0:22] Scroll to claim cards. Each shows:
-       - Claim text
-       - Status badge (color-coded)
-       - Reason from AI
-       - Corrected fact (for False/Inaccurate)
-       - Confidence bar + Source credibility bar
-
-[0:27] Click "Open Full Dashboard" — Plotly donut chart, confidence histogram,
-       scatter plot, and timeline render.
-
-[0:30] Click "Download CSV Report" — report downloads instantly.
-```
-
 ---
 
 ## 🔮 Future Improvements
