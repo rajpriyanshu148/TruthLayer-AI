@@ -13,9 +13,8 @@
 **Automatically detect, verify, and classify every factual claim in your PDF documents using live web search and advanced AI reasoning.**
  
 [![Live App](https://img.shields.io/badge/Live_App-Streamlit_Cloud-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white)](https://truthlayer-ai-ps.streamlit.app/)
-[![Deploy to Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/deploy?repository=rajpriyanshu148/TruthLayer-AI&branch=main&mainModule=app.py)
- 
-[🚀 Live App](https://truthlayer-ai-ps.streamlit.app/) · [📖 Docs](#-installation-guide) · [🎬 Demo Script](#-demo) · [🐛 Report Bug](https://github.com/rajpriyanshu148/TruthLayer-AI/issues) · [✨ Features](#-features)
+
+[🚀 Live App](https://truthlayer-ai-ps.streamlit.app/) · [📖 Docs](#-installation-guide)  · [🐛 Report Bug](https://github.com/rajpriyanshu148/TruthLayer-AI/issues) · [✨ Features](#-features)
 
  
 ---
