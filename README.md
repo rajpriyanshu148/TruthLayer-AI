@@ -1,44 +1,47 @@
 <div align="center">
-
+ 
 # 🔍 TruthLayer AI
 ### AI-Powered Fact Checking Agent
-
+ 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=flat-square&logo=python&logoColor=white)](https://python.org)
 [![Streamlit](https://img.shields.io/badge/Streamlit-1.35%2B-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)](https://streamlit.io)
 [![Gemini](https://img.shields.io/badge/Google_Gemini-API-4285F4?style=flat-square&logo=google&logoColor=white)](https://ai.google.dev)
 [![Tavily](https://img.shields.io/badge/Tavily-Search_API-6366F1?style=flat-square)](https://tavily.com)
-[![License](https://img.shields.io/badge/License-MIT-10d9a0?style=flat-square)](LICENSE)
-
+[![GitHub License](https://img.shields.io/github/license/rajpriyanshu148/TruthLayer-AI?style=flat-square&color=10d9a0)](LICENSE)
+[![GitHub Stars](https://img.shields.io/github/stars/rajpriyanshu148/TruthLayer-AI?style=flat-square)](https://github.com/rajpriyanshu148/TruthLayer-AI/stargazers)
+ 
 **Automatically detect, verify, and classify every factual claim in your PDF documents using live web search and advanced AI reasoning.**
-
-[🚀 Live Demo](#demo) · [📖 Docs](#installation-guide) · [🐛 Report Bug](issues) · [✨ Features](#features)
-
+ 
+[🚀 Live Demo](#demo) · [📖 Docs](#installation-guide) · [🐛 Report Bug](https://github.com/rajpriyanshu148/TruthLayer-AI/issues) · [✨ Features](#features)
+ 
 ---
-
+ 
 </div>
-
+ 
 ## 📌 Overview
-
+ 
 TruthLayer AI is a production-grade fact-checking platform that transforms any PDF document into a comprehensive verification report. It combines **Google Gemini's reasoning capabilities** with **Tavily's real-time web search** to extract factual claims, cross-reference them against trusted sources, and classify each as **Verified**, **Inaccurate**, or **False** — complete with confidence scores, source credibility ratings, and downloadable CSV reports.
-
+ 
 Built for Product Managers, journalists, researchers, compliance teams, and anyone who needs to validate information at scale.
-
+ 
 ---
-
+ 
 ## ✨ Features
-
+ 
 | Category | Feature |
 |----------|---------|
 | 📄 **Input** | PDF upload up to 50MB, multi-page support, metadata extraction |
 | 🎯 **Detection** | Statistics, dates, percentages, company figures, financial data, technical claims |
 | 🌐 **Verification** | Real-time Tavily web search with trusted source ranking |
-| 🤖 **AI Evaluation** | Gemini 1.5 Flash reasoning with structured JSON output |
+| 🤖 **AI Evaluation** | Multi-model Gemini support (2.0-flash, 2.0-flash-lite, 1.5-flash) |
+| 🛡️ **Resilience** | Automatic fallback chain: switches models on 429 quota or 404 missing model errors |
 | 📊 **Dashboard** | Interactive Plotly charts — donut, histogram, scatter, timeline |
 | 📈 **Scoring** | Per-claim confidence score + source credibility score |
 | 🧹 **Quality** | Automatic duplicate claim removal via similarity filtering |
 | 📥 **Export** | One-click CSV report download with all claim metadata |
 | 🗂️ **History** | Session history with per-document verdict breakdowns |
 | 🎨 **UI/UX** | Dark mode, glassmorphism, animated KPI cards, premium design |
+
 
 ---
 
@@ -102,35 +105,33 @@ truthlayer-ai/
 ```
 
 ---
-
+ 
 ## 📸 Screenshots
-
-| Home Page | Analysis Dashboard |
-|-----------|-------------------|
-| *Upload PDF with drag-and-drop* | *Interactive Plotly charts* |
-
-| Fact Check Results | Session History |
-|-------------------|----------------|
-| *Claim cards with confidence bars* | *Multi-session verdict breakdowns* |
-
+ 
+### 🏠 Home & Upload Interface
+![Home Page](assets/home.png)
+ 
+### 📊 Interactive Analysis Dashboard
+![Analysis Dashboard](assets/dashboard.png)
+ 
 ---
-
+ 
 ## 🚀 Installation Guide
-
+ 
 ### Prerequisites
-
+ 
 - Python 3.10 or higher
 - [Google Gemini API Key](https://ai.google.dev/gemini-api/docs/api-key) (free tier available)
 - [Tavily API Key](https://tavily.com) (free tier: 1000 searches/month)
-
+ 
 ### Local Setup
-
+ 
 **1. Clone the repository**
 ```bash
-git clone https://github.com/yourusername/truthlayer-ai.git
-cd truthlayer-ai
+git clone https://github.com/rajpriyanshu148/TruthLayer-AI.git
+cd TruthLayer-AI
 ```
-
+ 
 **2. Create a virtual environment**
 ```bash
 python -m venv .venv
@@ -139,66 +140,58 @@ python -m venv .venv
 # macOS/Linux
 source .venv/bin/activate
 ```
-
+ 
 **3. Install dependencies**
 ```bash
 pip install -r requirements.txt
 ```
-
+ 
 **4. Configure environment variables**
 ```bash
 cp .env.example .env
 ```
-
+ 
 Edit `.env`:
 ```env
 GEMINI_API_KEY=your_gemini_api_key_here
 TAVILY_API_KEY=your_tavily_api_key_here
 ```
-
+ 
 **5. Run the application**
 ```bash
 streamlit run app.py
 ```
-
+ 
 Open [http://localhost:8501](http://localhost:8501) in your browser.
-
+ 
 ---
-
+ 
 ## 🔑 Environment Variables
-
+ 
 | Variable | Required | Description | Get It |
 |----------|----------|-------------|--------|
 | `GEMINI_API_KEY` | ✅ Yes | Google Gemini API key for AI reasoning | [Google AI Studio](https://aistudio.google.com/app/apikey) |
 | `TAVILY_API_KEY` | ✅ Yes | Tavily Search API key for web search | [Tavily Dashboard](https://app.tavily.com) |
-
+ 
 ---
-
+ 
 ## ☁️ Deployment on Streamlit Cloud
-
-**1. Push to GitHub**
-```bash
-git init
-git add .
-git commit -m "feat: initial TruthLayer AI release"
-git remote add origin https://github.com/yourusername/truthlayer-ai.git
-git push -u origin main
-```
-
-**2. Deploy on Streamlit Cloud**
-1. Go to [share.streamlit.io](https://share.streamlit.io)
-2. Click **"New app"**
-3. Connect your GitHub repository
-4. Set **Main file path**: `app.py`
-5. Click **"Advanced settings"** → **Secrets**
+ 
+**1. Deploy on Streamlit Cloud**
+1. Go to [share.streamlit.io](https://share.streamlit.io) and log in with your GitHub account.
+2. Click **"New app"**.
+3. Select your repository: `rajpriyanshu148/TruthLayer-AI`.
+4. Set **Main file path**: `app.py`.
+5. Click **"Advanced settings"** ➔ **Secrets**.
 6. Add your secrets:
    ```toml
    GEMINI_API_KEY = "your_gemini_api_key"
    TAVILY_API_KEY = "your_tavily_api_key"
    ```
 7. Click **"Deploy!"**
-
+ 
 > ⚠️ **Important**: On Streamlit Cloud, use the Secrets manager instead of a `.env` file. The `python-dotenv` load will silently fail on Cloud, and the app will fall back to environment variables — which Streamlit Cloud injects automatically from your secrets.
+
 
 ---
 
@@ -257,23 +250,24 @@ git push -u origin main
 | Layer | Technology |
 |-------|-----------|
 | **Frontend** | Streamlit 1.35+, Custom CSS, Glassmorphism |
-| **AI Reasoning** | Google Gemini 1.5 Flash |
+| **AI Reasoning** | Google Gemini 2.0 / 1.5 (with Fallback Chain) |
 | **Web Search** | Tavily Search API |
 | **PDF Processing** | PyMuPDF (fitz) |
 | **Data & Charts** | Pandas, Plotly |
 | **Environment** | python-dotenv |
 | **Deployment** | Streamlit Cloud / Any Python host |
-
+ 
 ---
-
+ 
 ## 📄 License
-
+ 
 MIT License — see [LICENSE](LICENSE) for details.
-
+ 
 ---
-
+ 
 <div align="center">
-
-Built with ❤️ by the TruthLayer AI team · [Report Issues](issues) · [Star this repo ⭐](.)
-
+ 
+Built with ❤️ by [Priyanshu Singh](https://github.com/rajpriyanshu148) · [Report Issues](https://github.com/rajpriyanshu148/TruthLayer-AI/issues) · [Star this repo ⭐](https://github.com/rajpriyanshu148/TruthLayer-AI)
+ 
 </div>
+

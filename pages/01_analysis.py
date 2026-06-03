@@ -2,10 +2,12 @@ import streamlit as st
 import plotly.graph_objects as go
 import plotly.express as px
 import pandas as pd
-
+from datetime import datetime
+ 
 from utils.styles import inject_custom_css
 from utils.config import STATUS_COLORS, STATUS_ICONS
 from services.report_service import generate_csv_report
+
 
 st.set_page_config(
     page_title="Analysis Dashboard – TruthLayer AI",
@@ -235,7 +237,6 @@ def render_dashboard(session: dict):
 
     st.markdown("<div class='section-divider'></div>", unsafe_allow_html=True)
     csv_bytes = generate_csv_report(results)
-    from datetime import datetime
     timestamp = datetime.now().strftime("%Y%m%d_%H%M")
     st.download_button(
         label="⬇️ Download Full CSV Report",
@@ -244,6 +245,7 @@ def render_dashboard(session: dict):
         mime="text/csv",
         use_container_width=False,
     )
+
 
 
 def main():
